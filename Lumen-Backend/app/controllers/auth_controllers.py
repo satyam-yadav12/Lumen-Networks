@@ -3,7 +3,7 @@ from ..extensions import mongo
 
 from marshmallow import Schema, ValidationError
 from ..Schema.user_validation import user_registration_schema
-from Schema.update_profile_img import upload_profile_image
+from ..Schema.update_profile_img import upload_profile_image
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, create_refresh_token, set_access_cookies, set_refresh_cookies, unset_jwt_cookies, get_jwt_identity, jwt_required, decode_token
 
@@ -76,7 +76,7 @@ def login():
     try:
         if(check_password):
             additional = {
-                "username": user_details['Username'], 
+                "username": user_details['Username'],
             }
             access_token = create_access_token(identity=user_details['Email'], additional_claims=additional)
             refresh_token = create_refresh_token(identity=user_details['Email'], additional_claims=additional)
@@ -111,6 +111,7 @@ def logout():
     return jsonify({"msg": "logout Successful"})
 
 
+#route to check user details test in thunderclients, remove it after work
 
 @auth_bp.route("/user/<id>", methods=['GET'])
 def get_user(id):

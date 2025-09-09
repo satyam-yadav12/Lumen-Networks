@@ -14,9 +14,9 @@ def Create_app():
     oauth.init_app(app)
 
     #register google client
-    from authlib.integrations.flask_client import OAuth
-    google= oauth.register(
-        name="googel",
+    
+    oauth.register(
+        name="google",
         client_id=app.config["GOOGLE_CLIENT_ID"],
         client_secret=app.config["GOOGLE_CLIENT_SECRET"],
         server_metadata_url=app.config["GOOGLE_DISCOVERY_URL"],
@@ -35,8 +35,10 @@ def Create_app():
     #register bluprints here
     def registerBluprints():
         from .controllers.auth_controllers import auth_bp
+        from .controllers.google_auth import google_auth_bp
 
         app.register_blueprint(auth_bp, url_prefix="/")
+        app.register_blueprint(google_auth_bp, url_prefix="/google")
 
 
     registerBluprints()
