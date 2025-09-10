@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, Blueprint, url_for, make_response
 from ..extensions import oauth
 from ..extensions import mongo
-from ..Schema.update_profile_img import upload_profile_image
+from ..services.cloudinary_functions import upload_profile_image
+from ..utils.db import insert_user_data, search_by_email
 from flask_jwt_extended import create_access_token, create_refresh_token, set_access_cookies, set_refresh_cookies, decode_token
 from dotenv import load_dotenv
 import os
@@ -26,8 +27,6 @@ def authorize_by_google():
     if not id_info:
         return jsonify({"msg": "google login fail", "status": 401})
     
-    
-    
     return generate_token_by_google_info(id_info)
 
 
@@ -36,32 +35,28 @@ def generate_token_by_google_info(data):
     profile_picture = data.get('picture')
     email = data.get('email')
     try:
-        user_registered = mongo.db.auth_student.find_one({'Email':email})
+        user_registered = search_by_email(email)
 
         if not user_registered:
-            if(profile_picture):
-                upload_profile_img = upload_profile_image(profile_picture, username)
-                if(upload_profile_img.status == 201):
-                    profile_img_url = profile_picture['Url']
-                else:
-                    profile_img_url = "None"
+                profile_img_url = "None"
+                if(profile_picture):
+                    upload_profile_img = upload_profile_image(profile_picture, username)
+                    profile_img_url = upload_profile_img['Url']
 
-            user_details ={
-                "Full Name": username,
-                "Email": email,
-                "Username": username, #username needs to be fixed
-                "Agree":True,
-                'Profile_picture': profile_img_url,
-                'Last_login': "None",
-                'Contribution_count': "None"
-            }
 
-            mongo.db.auth_student.insert_one(user_details)
+                user_details ={
+                    "Full Name": username,
+                    "Email": email,
+                    "Username": username, #username need to be fixed
+                    "Agree":True,
+                    'Profile_picture': profile_img_url,
+                    'Last_login': "None",
+                    'Contribution_count': "None"
+                }
+
+                insert_user_data(user_details)
     
-    except Exception as e:
-        return jsonify({"error": {e}}), 500
-
-    try:
+        #generate token
         additional = {
             "username" :username
         }

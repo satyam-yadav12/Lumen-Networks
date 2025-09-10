@@ -36,9 +36,11 @@ def Create_app():
     def registerBluprints():
         from .controllers.auth_controllers import auth_bp
         from .controllers.google_auth import google_auth_bp
+        from .controllers.user_profile import user_profile_bp
 
         app.register_blueprint(auth_bp, url_prefix="/")
         app.register_blueprint(google_auth_bp, url_prefix="/google")
+        app.register_blueprint(user_profile_bp, url_prefix="/user")
 
 
     registerBluprints()

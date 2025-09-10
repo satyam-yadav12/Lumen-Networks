@@ -46,7 +46,7 @@ class user_registration_schema(Schema):
     )
 
     Profile_picture = fields.String(
-        
+        error_messages={"must be string": True}
     )
     Last_login = fields.String(
 
