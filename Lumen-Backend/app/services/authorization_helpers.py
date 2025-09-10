@@ -27,7 +27,7 @@ def validate_user_data(data):
 def create_user_data(data, username, profile_url):
     hashed_password = generate_password_hash(data.get("Password"))
     user_details ={
-                "Full Name": data.get('Full_name'),
+                "Full_name": data.get('Full_name'),
                 "Email": data.get('Email'),
                 "Phone": data.get('Mobile'),
                 "Password": hashed_password,
