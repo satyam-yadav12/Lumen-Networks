@@ -59,9 +59,9 @@ def login():
             raise Exception("incorrect user email or password")
         
     except Exception as error:
-        return jsonify({"error": str(error)})
+        return jsonify({"error": str(error)}), 500
     except ValueError as e:
-        return jsonify({"error": str(e)})
+        return jsonify({"error": str(e)}), 400
    
 
 @auth_bp.route("/logout", methods=['POST'])
