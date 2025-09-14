@@ -13,24 +13,24 @@ auth_bp = Blueprint("auth", __name__)
 def register():
     data = request.form
     img = request.files['Profile_picture']
-    username = str(data.get('Full_name'))+str(data.get('Mobile')[2:7])
+    
     
 
     try:
-        validate_data = validate_user_data(data)
+        validate_data, username = validate_user_data(data)
         profile_img_url = "None"
         if(img):
             profile_picture = upload_profile_image(img, username)
             if(profile_picture):
                 profile_img_url = profile_picture['Url']
         
-        if(validate_data):
+        if(validate_data and username):
             user_details = create_user_data(data, username, profile_img_url)
             insertion = insert_user_data(user_details)
 
  
             if(insertion):
-                return jsonify({"msg": "user registered success fully", "insertion id": insertion, 'validation result': validate_data, "profile": profile_img_url, "cloudinary_function": profile_picture['Url']}), 200
+                return jsonify({"msg": "user registered success fully", "insertion id": insertion, 'validation result': validate_data, "profile": profile_img_url, "cloudinary_function": profile_picture['Url'], "img": img}), 200
             else:
                 raise Exception("error inserting user data")
 
@@ -39,7 +39,7 @@ def register():
     except ValueError as e: 
         return jsonify({"unexpected error occured": str(e)}),400
     except Exception as e:
-        return jsonify({"unexpected error occured": str(e)}),400
+        return jsonify({"unexpected error occured": str(e), "img": img}),400
 
 
 

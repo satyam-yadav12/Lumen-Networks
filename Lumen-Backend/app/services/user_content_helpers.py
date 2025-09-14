@@ -1,4 +1,4 @@
-from .cloudinary_functions import upload_image
+# from .cloudinary_functions import upload_image
 import re, uuid
 from ..utils.db import search_for_img_name
 
@@ -9,6 +9,7 @@ def generate_img_id(title):
     check = True
     while check:
         public_id = generate_unique_name_for_img(title)
+ 
         mongo_search = search_for_img_name(public_id)
         if not mongo_search:
             check = False

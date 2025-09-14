@@ -4,23 +4,24 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, create_refresh_token, set_access_cookies, set_refresh_cookies, decode_token
 from ..extensions import mongo
 from flask import jsonify
+import random
 
 #validate user data for registration
 def validate_user_data(data):
         Schema = user_registration_schema()
  
         validate_data = Schema.load(data)
-        username = str(data.get('Full_name'))+str(data.get('Mobile')[2:7])
+        # username = str(data.get('Full_name'))+str(data.get('Mobile')[2:7])
 
-        user_exist = search_by_username(username)
-        if(user_exist):
-            raise ValueError("Username already exist")
+        # user_exist = search_by_username(username)
+        # if(user_exist):
+        #     raise ValueError("Username already exist")
         
         email_exist = search_by_email(data.get("Email"))
         if(email_exist):
             raise ValueError("Email already registered")
-        
-        return True
+        username = generate_new_username(data.get('Full_name'))
+        return True, username
         
 
 #create user data for registration
@@ -39,6 +40,25 @@ def create_user_data(data, username, profile_url):
                 'Contribution_count': "None"
             }
     return user_details
+
+def generate_new_username(full_name):#write function to generate random and unique username
+      username = full_name.split(" ")
+      username = "_".join(username).lower()
+      count =0
+      check = True
+ 
+      while check:
+            if(count != 0):
+                  random_nums = random.randint(10, 9999)
+                  username = username+str(random_nums)
+
+            mongo_result = search_by_username(username)
+            if not mongo_result:
+                  check = False
+            else:
+                  count+=1
+      return username
+
 
 #generate JWT token for Login
 

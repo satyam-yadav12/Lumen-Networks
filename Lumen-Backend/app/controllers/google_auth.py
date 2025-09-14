@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, Blueprint, url_for, make_response
 from ..extensions import oauth
 from ..extensions import mongo
+from ..services.authorization_helpers import generate_new_username
 from ..services.cloudinary_functions import upload_profile_image
 from ..utils.db import insert_user_data, search_by_email
 from flask_jwt_extended import create_access_token, create_refresh_token, set_access_cookies, set_refresh_cookies, decode_token
@@ -31,13 +32,18 @@ def authorize_by_google():
 
 
 def generate_token_by_google_info(data):
-    username = data.get('name')
+    Full_name = data.get('name')
     profile_picture = data.get('picture')
     email = data.get('email')
     try:
         user_registered = search_by_email(email)
 
+        
+
         if not user_registered:
+                # generate_new_and_unique_Username write function here
+                username  = generate_new_username(Full_name)
+
                 profile_img_url = "None"
                 if(profile_picture):
                     upload_profile_img = upload_profile_image(profile_picture, username)
@@ -45,9 +51,9 @@ def generate_token_by_google_info(data):
 
 
                 user_details ={
-                    "Full Name": username,
+                    "Full_name": Full_name,
                     "Email": email,
-                    "Username": username, #username need to be fixed
+                    "Username": username,
                     "Agree":True,
                     'Profile_picture': profile_img_url,
                     'Last_login': "None",

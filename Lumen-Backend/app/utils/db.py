@@ -30,7 +30,7 @@ def update_without_search(email, data):
 
 #database name user_imgs
 def search_for_img_name(public_name):
-    img_details  = mongo.db.user_imgs.find({"img_id": public_name})
+    img_details  = mongo.db.user_imgs.find_one({"img_id": public_name})
     return img_details
 
 def insert_img_data(data):
@@ -49,3 +49,29 @@ def delete_image_details(img_id):
     mongo.db.user_imgs.delete_one({"img_id": img_id})
     return {"msg": "success"}
     
+
+#database name user_collection
+def insert_collection_data(data):
+    insert_id = mongo.db.user_collection.insert_one(data).inserted_id
+    return insert_id
+
+def delete_collection_data(user, img):
+    mongo.db.user_collection.delete_one({"username": user, "img_id": img})
+    return {"msg": "success"}
+
+def search_collection_of_user(user):
+    data = mongo.db.user_collection.find({"username": user})
+    return data
+
+def check_if_like_exist(id, user):
+    result = mongo.db.user_collection.find_one({"img_id": id, "username": user})
+    if result:
+        raise Exception("like exist")
+    return False
+
+
+#database name counters
+def increment_counter(name):
+    counter = mongo.db.counters.find_one_and_update({"counter_id": name}, {"$inc": {"sequence_value": 1}}, return_document = True, upsert = True)
+    return counter["sequence_value"]
+
