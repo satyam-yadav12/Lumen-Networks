@@ -1,9 +1,9 @@
 from flask import jsonify, Blueprint, request
 from marshmallow import ValidationError
 from flask_jwt_extended import  unset_jwt_cookies, get_jwt_identity, jwt_required
-
+from pymongo.errors import DuplicateKeyError
 from ..services.authorization_helpers import validate_user_data, create_user_data, generate_and_set_tokens, check_password_and_user_email
-from ..utils.db import insert_user_data, search_by_email
+from ..utils.db import insert_user_data, search_by_email, delete_user
 from ..services.cloudinary_functions import upload_profile_image
 
 auth_bp = Blueprint("auth", __name__)
@@ -12,34 +12,38 @@ auth_bp = Blueprint("auth", __name__)
 @auth_bp.route("/register", methods=['POST'])
 def register():
     data = request.form
-    img = request.files['Profile_picture']
+    img = request.files.get('Profile_picture')
     
-    
-
     try:
         validate_data, username = validate_user_data(data)
         profile_img_url = "None"
-        if(img):
-            profile_picture = upload_profile_image(img, username)
-            if(profile_picture):
-                profile_img_url = profile_picture['Url']
+        if(img and img.filename and img.filename.strip() !=""):
+            
+                upload_results = upload_profile_image(img, username)
+                if(upload_results['Url']):
+                    profile_img_url = upload_results['Url']
         
         if(validate_data and username):
             user_details = create_user_data(data, username, profile_img_url)
             insertion = insert_user_data(user_details)
 
- 
             if(insertion):
-                return jsonify({"msg": "user registered success fully", "insertion id": insertion, 'validation result': validate_data, "profile": profile_img_url, "cloudinary_function": profile_picture['Url'], "img": img}), 200
+                return jsonify({"msg": "user registered success fully", "insertion id": insertion, 'validation result': validate_data, "profile": profile_img_url, "img": img}), 200
             else:
                 raise Exception("error inserting user data")
 
     except ValidationError as error:
+        delete_user(data.get('Email'))
         return jsonify({'msg': "some error occured", "errors" : error.messages}), 400
+    except DuplicateKeyError as e:
+        return jsonify({"error occured": str(e), "msg":"error in generating username, Try again"}), 500
     except ValueError as e: 
+        delete_user(data.get('Email'))
         return jsonify({"unexpected error occured": str(e)}),400
     except Exception as e:
+        delete_user(data.get('Email'))
         return jsonify({"unexpected error occured": str(e), "img": img}),400
+
 
 
 

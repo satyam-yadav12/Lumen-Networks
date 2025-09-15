@@ -27,6 +27,12 @@ def update_user_data(email, data):
 def update_without_search(email, data):
     mongo.db.auth_student.update_one({"Email": email}, {"$set": data})
 
+def delete_user(email):
+    exist = search_by_email(email)
+    if exist:
+        mongo.db.auth_student.delete_one({"Email": email})
+    return 
+
 
 #database name user_imgs
 def search_for_img_name(public_name):
@@ -45,9 +51,36 @@ def search_for_user_uploads(user):
     details = mongo.db.user_imgs.find({"owner": user})
     return details
 
+def update_Like_counts_in_img(img_id):
+    mongo.db.user_imgs.update_one({"img_id": img_id}, {"$inc": {"count_of_likes": 1}})
+    return True
+def decrement_Like_count_in_img(img_id):
+    mongo.db.user_imgs.update_one({"img_id": img_id}, {"$inc": {"count_of_likes": -1}})
+    return True
+
 def delete_image_details(img_id):
     mongo.db.user_imgs.delete_one({"img_id": img_id})
     return {"msg": "success"}
+
+#search related queries
+
+def find_search_results_title(keyword, skip, limit):
+    result =mongo.db.user_imgs.find({"title":{"$regex": keyword, "$options": "i"}}).skip(skip).limit(limit)
+    return result
+
+def find_search_results_tags(keyword, skip, limit):
+    result =mongo.db.user_imgs.find({"tags":{"$regex": keyword, "$options": "i"}}).skip(skip).limit(limit)
+    return result
+    
+
+def find_total_count_of_results_title(keyword):
+    result =mongo.db.user_imgs.count_documents({"title":{"$regex": keyword, "$options": "i"}})
+    return result
+    
+
+def find_total_count_of_results_tag(keyword):
+    result =mongo.db.user_imgs.count_documents({"title":{"$regex": keyword, "$options": "i"}})
+    return result
     
 
 #database name user_collection
@@ -75,3 +108,12 @@ def increment_counter(name):
     counter = mongo.db.counters.find_one_and_update({"counter_id": name}, {"$inc": {"sequence_value": 1}}, return_document = True, upsert = True)
     return counter["sequence_value"]
 
+#database name user_feedback
+def insert_feedback_data(data):
+    insertion = mongo.db.user_feedback.insert_one(data).insertion_id
+    return insertion
+
+#database name content_report
+def insert_content_report(data):
+    insertion = mongo.db.content_report.insert_one(data).insertion_id
+    return insertion

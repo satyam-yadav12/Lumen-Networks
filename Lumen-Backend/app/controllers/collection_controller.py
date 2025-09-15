@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify
 from flask_jwt_extended import jwt_required, get_jwt
 from ..services.collection_helpers import create_collection_data
-from ..utils.db import insert_collection_data, delete_collection_data, search_collection_of_user, check_if_like_exist
+from ..utils.db import insert_collection_data, delete_collection_data, search_collection_of_user, check_if_like_exist, update_Like_counts_in_img, decrement_Like_count_in_img
 
 collection_bp = Blueprint("collection", __name__)
 
@@ -14,6 +14,7 @@ def save_to_collection(img_id):
         if not liked:
             data = create_collection_data(img_id, user_name)
             insertion = insert_collection_data(data)
+            update_Like_counts_in_img(img_id)
             return jsonify({'msg': "success", "insert id": insertion}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
@@ -23,6 +24,7 @@ def save_to_collection(img_id):
 def unsave_from_collection(img_id):
     user_name = get_jwt()['username']
     delete_collection_data(user_name, img_id)
+    decrement_Like_count_in_img(img_id)
     return jsonify({'msg': "success"}), 200
 
 @collection_bp.route("/collection", methods =['GET'])

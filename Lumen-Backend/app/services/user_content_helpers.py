@@ -1,6 +1,7 @@
 # from .cloudinary_functions import upload_image
 import re, uuid
 from ..utils.db import search_for_img_name
+from datetime import datetime, timezone
 
 
 
@@ -36,8 +37,8 @@ def create_img_data_to_upload(data, Url, folder, user, img_id):
             "public_id": img_id,
             "secure_url": Url
         },
-        "count_of_likes": "none",
-        "created_at": "none",
+        "count_of_likes": 0,
+        "created_at": datetime.now(timezone.utc),
         "download_count": "none"
     }
     return img_data

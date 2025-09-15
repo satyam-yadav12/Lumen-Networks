@@ -65,3 +65,5 @@ def delete_user_img(id):
     delete_image_details(id)
     return jsonify({"msg": "image deleted successfull"}), 200
 
+
+
