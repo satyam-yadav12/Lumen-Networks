@@ -1,5 +1,5 @@
-from flask import Blueprint, jsonify
-from flask_jwt_extended import jwt_required, get_jwt
+from flask import jsonify
+from flask_jwt_extended import get_jwt
 from ..services.collection_helpers import create_collection_data
 from ..utils.db import (
     insert_collection_data,
@@ -10,11 +10,10 @@ from ..utils.db import (
     decrement_Like_count_in_img,
 )
 
-# collection_bp = Blueprint("collection", __name__)
+
+# route("/save/<img_id>", methods=["POST"])
 
 
-# @collection_bp.route("/save/<img_id>", methods=["POST"])
-# @jwt_required()
 def save_to_collection(img_id):
     user_name = get_jwt()["username"]
     try:
@@ -28,8 +27,9 @@ def save_to_collection(img_id):
         return jsonify({"error": str(e)}), 400
 
 
-# @collection_bp.route("/unsave/<img_id>", methods=["DELETE"])
-# @jwt_required()
+# route("/unsave/<img_id>", methods=["DELETE"])
+
+
 def unsave_from_collection(img_id):
     user_name = get_jwt()["username"]
     delete_collection_data(user_name, img_id)
@@ -37,8 +37,9 @@ def unsave_from_collection(img_id):
     return jsonify({"msg": "success"}), 200
 
 
-# @collection_bp.route("/collection", methods=["GET"])
-# @jwt_required()
+# route("/collection", methods=["GET"])
+
+
 def get_collection_of_user():
     user_name = get_jwt()["username"]
     collection = search_collection_of_user(user_name)

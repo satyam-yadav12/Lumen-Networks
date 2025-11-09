@@ -16,7 +16,7 @@ from ..utils.db import token_is_not_revoked, revoke_refresh_token, save_new_jti
 refresh_token_bp = Blueprint("refresh", __name__)
 
 
-# NOTE: refresh token rotation can be performed only with front-end
+# NOTE: refresh token rotation can be performed only with front-end with help of /me route
 @refresh_token_bp.route("/action", methods=["POST"])
 @jwt_required(refresh=True)
 def refresh_old_token():

@@ -15,7 +15,7 @@ class Config:
     JWT_COOKIE_SECURE = True
     JWT_COOKIE_SAMESITE = "LAX"
     JWT_COOKIE_CSRF_PROTECT = False
-    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=1)
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=30)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=7)
 
     # cors configurations

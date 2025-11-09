@@ -1,9 +1,11 @@
-from flask import Flask, Blueprint
+from flask import Blueprint, url_for
 from flask_jwt_extended import jwt_required
 from ..controllers.auth_controllers import register, login, logout, get_me
-from ..controllers.google_auth import google_login, authorize_by_google
+from ..controllers.google_auth import authorize_by_google
+from ..extensions import oauth
 
 auth_bp = Blueprint("auth", __name__)
+google = oauth.create_client("google")
 
 
 @auth_bp.route("/register", methods=["POST"])
@@ -30,9 +32,11 @@ def get_current_user():
 
 @auth_bp.route("/google/login")
 def login_with_google():
-    return google_login()
+    redirect_url = url_for("auth.get_details_from_google", _external=True)
+    print(redirect_url)
+    return google.authorize_redirect(redirect_url)
 
 
-@auth_bp.route("/google/login/callack")
+@auth_bp.route("/google/login/callback")
 def get_details_from_google():
-    return authorize_by_google()
+    return authorize_by_google(google)

@@ -1,5 +1,5 @@
-from flask import Flask, Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt
+from flask import request, jsonify
+from flask_jwt_extended import get_jwt
 from ..services.user_content_helpers import generate_img_id, create_img_data_to_upload
 from ..services.cloudinary_functions import (
     upload_user_images,
@@ -12,11 +12,10 @@ from ..utils.db import (
     delete_image_details,
 )
 
-# user_content_bp = Blueprint("user_content", __name__)
+
+# route("/upload-new", methods=["POST"])
 
 
-# @user_content_bp.route("/upload-new", methods=["POST"])
-# @jwt_required()
 def upload_new_img():
     img_data = request.form
     img = request.files["picture"]
@@ -47,8 +46,9 @@ def upload_new_img():
         return jsonify({"unexpected error occured": str(e)})
 
 
-# @user_content_bp.route("/uploads", methods=["GET"])
-# @jwt_required()
+# route("/uploads", methods=["GET"])
+
+
 def get_user_uploads():
     id = get_jwt()["username"]
 
@@ -57,8 +57,9 @@ def get_user_uploads():
     return jsonify({"msg": "user uploaded images are fetched", "data": user_uploads})
 
 
-# @user_content_bp.route("/uploads/<id>/update", methods=["PUT", "PATCH"])
-# @jwt_required()
+# route("/uploads/<id>/update", methods=["PUT", "PATCH"])
+
+
 def update_img_details(id):
     data = request.json
 
@@ -72,8 +73,9 @@ def update_img_details(id):
     return jsonify({"msg": "image updated"})
 
 
-# @user_content_bp.route("/uploads/<id>/delete", methods=["DELETE"])
-# @jwt_required()
+# route("/uploads/<id>/delete", methods=["DELETE"])
+
+
 def delete_user_img(id):
     user = get_jwt()["username"]
     delete_cloudinary_img_by_user(id, user, "user_uploaded_img")

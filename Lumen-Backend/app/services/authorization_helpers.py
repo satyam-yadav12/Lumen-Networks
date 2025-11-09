@@ -1,4 +1,4 @@
-from ..Models.user_validation import user_registration_schema
+from ..models.user_validation import user_registration_schema
 from ..utils.db import search_by_email, search_by_username
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import (
@@ -18,11 +18,6 @@ def validate_user_data(data):
     Schema = user_registration_schema()
 
     validate_data = Schema.load(data)
-    # username = str(data.get('Full_name'))+str(data.get('Mobile')[2:7])
-
-    # user_exist = search_by_username(username)
-    # if(user_exist):
-    #     raise ValueError("Username already exist")
 
     email_exist = search_by_email(data.get("Email"))
     if email_exist:

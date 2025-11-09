@@ -1,16 +1,15 @@
-from flask import Flask, jsonify, Blueprint, request
+from flask import jsonify, request
 from werkzeug.security import generate_password_hash
-from flask_jwt_extended import jwt_required, get_jwt_identity, unset_jwt_cookies
-from ..Models.user_validation import user_registration_schema
+from flask_jwt_extended import get_jwt_identity, unset_jwt_cookies
+from ..models.user_validation import user_registration_schema
 from ..utils.db import search_by_email, update_user_data, update_without_search
 from marshmallow import ValidationError
 from ..services.cloudinary_functions import upload_profile_image
 
-# user_profile_bp = Blueprint("user", __name__)
+
+# route("profile", methods=["GET"])
 
 
-# @user_profile_bp.route("profile", methods=["GET"])
-# @jwt_required()
 def get_profile():
     id = get_jwt_identity()
     user_details = search_by_email(id)
@@ -18,8 +17,9 @@ def get_profile():
     return jsonify({"user details": filtered_user_data, "response_code": 201}), 201
 
 
-# @user_profile_bp.route("editprofile", methods=["PUT", "PATCH"])
-# @jwt_required()
+# route("editprofile", methods=["PUT", "PATCH"])
+
+
 def edit_profile():
     data = request.json
     id = get_jwt_identity()
@@ -37,8 +37,9 @@ def edit_profile():
         return jsonify({"error": str(e)}), 401
 
 
-# @user_profile_bp.route("changepassword", methods=["PUT"])
-# @jwt_required()
+# route("changepassword", methods=["PUT"])
+
+
 def edit_password():
     id = get_jwt_identity()
     data = request.json
@@ -60,8 +61,9 @@ def edit_password():
         return jsonify({"error": err.messages})
 
 
-# @user_profile_bp.route("change-profile-picture", methods=["PUT", "PATCH"])
-# @jwt_required()
+# route("change-profile-picture", methods=["PUT", "PATCH"])
+
+
 def change_profile_picture():
     id = get_jwt_identity()
     img = request.files["Profile_picture"]

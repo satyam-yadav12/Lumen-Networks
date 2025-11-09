@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import jsonify, request
 from ..utils.db import (
     find_search_results_title,
     find_search_results_tags,
@@ -8,10 +8,7 @@ from ..utils.db import (
 )
 
 
-# search_bp = Blueprint("search", __name__)
-
-
-# @search_bp.route("/search", methods=["GET"])
+# route("/search", methods=["GET"])
 def search_keyword():
     keyword = request.args.get("q", "").strip()
     page = int(request.args.get("page", 1))
@@ -42,7 +39,7 @@ def search_keyword():
     return jsonify({"data": response, "response_code": 200}), 200
 
 
-# @search_bp.route("/allimages", methods=["GET"])
+# route("/allimages", methods=["GET"])
 def fetch_all_images():
     result, count = find_all_images()
     return jsonify({"result": result, "count": count})

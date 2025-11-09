@@ -1,14 +1,12 @@
 # feedback controller
-from flask import request, Blueprint, jsonify
+from flask import request, jsonify
 from marshmallow import ValidationError
-from ..Models.feedback_validation import feedback_validation
+from ..models.feedback_validation import feedback_validation
 from ..utils.db import insert_feedback_data, insert_content_report
-from flask_jwt_extended import jwt_required, get_jwt
-
-# feedback_bp = Blueprint("feedback", __name__)
+from flask_jwt_extended import get_jwt
 
 
-# @feedback_bp.route("/feedback", methods=["POST"])
+# route("/feedback", methods=["POST"])
 def send_feedback():
     data = request.json
     Schema = feedback_validation()
@@ -24,8 +22,9 @@ def send_feedback():
         return jsonify({"error": str(e)})
 
 
-# @feedback_bp.route("/reportcontent/<id>", methods=["POST"])
-# @jwt_required()
+# route("/reportcontent/<id>", methods=["POST"])
+
+
 def send_content_violetion_report(id):
     data = request.json
     user = get_jwt()["username"]

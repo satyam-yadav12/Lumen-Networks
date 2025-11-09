@@ -3,8 +3,6 @@ from .config import Config
 from .extensions import oauth, jwt, cors, mongo
 import cloudinary
 
-# from .middlewares.authenticate_request import verify_and_refresh_token
-
 
 def Create_app():
     app = Flask(__name__)
@@ -34,15 +32,7 @@ def Create_app():
     )
 
     # register bluprints here
-    def registerBluprints():  # NOTE TEST ALL ROUTES BEFORE REMOVING COMMENTS
-        # replace all bluprints from routes folder
-        # from .controllers.auth_controllers import auth_bp
-        # from .controllers.google_auth import google_auth_bp
-        # from .controllers.user_profile import user_profile_bp
-        # from .controllers.user_content import user_content_bp
-        # from .controllers.collection_controller import collection_bp
-        # from .controllers.feedback_controller import feedback_bp
-        # from .controllers.search_content import search_bp
+    def registerBluprints():
 
         from .routes.auth_routes import auth_bp
         from .routes.user_content_routes import user_profile_bp
@@ -52,9 +42,7 @@ def Create_app():
         from .middlewares.refresh_manual import refresh_token_bp
 
         app.register_blueprint(auth_bp, url_prefix="/")
-        # app.register_blueprint(google_auth_bp, url_prefix="/google")
         app.register_blueprint(user_profile_bp, url_prefix="/user")
-        # app.register_blueprint(user_content_bp, url_prefix="/user/in")
         app.register_blueprint(collection_bp, url_prefix="/images")
         app.register_blueprint(feedback_bp, url_prefix="/misc")
         app.register_blueprint(search_bp, url_prefix="/lumen")

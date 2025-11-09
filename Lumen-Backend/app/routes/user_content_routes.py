@@ -63,8 +63,3 @@ def edit_img_data(id):
 @jwt_required()
 def delete_img_data(id):
     return delete_user_img(id)
-
-
-# replace all routes inside of this folder in future
-# routes are updated
-# primary work is to finish this file and create one and only middleware

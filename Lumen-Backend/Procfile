@@ -1,0 +1,1 @@
+web: gunicorn run:Lumen --workers 1 --threads 2 --timeout 120

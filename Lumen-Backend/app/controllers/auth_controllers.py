@@ -1,6 +1,6 @@
-from flask import jsonify, Blueprint, request
+from flask import jsonify, request
 from marshmallow import ValidationError
-from flask_jwt_extended import unset_jwt_cookies, get_jwt_identity, jwt_required
+from flask_jwt_extended import unset_jwt_cookies, get_jwt_identity
 from pymongo.errors import DuplicateKeyError
 from ..services.authorization_helpers import (
     validate_user_data,
@@ -11,10 +11,8 @@ from ..services.authorization_helpers import (
 from ..utils.db import insert_user_data, search_by_email, delete_user
 from ..services.cloudinary_functions import upload_profile_image, delete_profile_image
 
-# auth_bp = Blueprint("auth", __name__)
 
-
-# @auth_bp.route("/register", methods=["POST"])
+# route("/register", methods=["POST"])
 def register():
     data = request.form
     img = request.files.get("Profile_picture")
@@ -90,7 +88,7 @@ def register():
         )
 
 
-# @auth_bp.route("/login", methods=["POST"])
+# route("/login", methods=["POST"])
 def login():
     details = request.json
 
@@ -111,16 +109,18 @@ def login():
         return jsonify({"error": str(e)}), 400
 
 
-# @auth_bp.route("/logout", methods=["POST"])
-# @jwt_required()
+# route("/logout", methods=["POST"])
+
+
 def logout():
     resp = jsonify({"msg": "logout Successful"})
     unset_jwt_cookies(resp)
     return resp
 
 
-# @auth_bp.route("/me", methods=["GET"])
-# @jwt_required()
+# route("/me", methods=["GET"])
+
+
 def get_me():
     id = get_jwt_identity()
     return jsonify({"msg": f"welcome {id}!"})

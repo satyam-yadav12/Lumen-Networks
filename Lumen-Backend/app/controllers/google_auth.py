@@ -1,6 +1,6 @@
-# NOTE test for google authorization is in pending state
-from flask import jsonify, Blueprint, url_for, make_response
-from ..extensions import oauth
+from flask import jsonify, make_response
+
+
 from ..extensions import mongo
 from ..services.authorization_helpers import generate_new_username
 from ..services.cloudinary_functions import upload_profile_image
@@ -16,22 +16,10 @@ from dotenv import load_dotenv
 import os
 
 
-# google_auth_bp = Blueprint("google_auth", __name__)
 load_dotenv()
-google = oauth.create_client("google")
 
 
-# @google_auth_bp.route("/login")
-def google_login():
-    redirect_url = url_for("google_auth.authorize_by_google", _external=True)
-    print(redirect_url)
-    return google.authorize_redirect(redirect_url)
-
-
-# @google_auth_bp.route(
-#     "/login/callback"
-# )  #NOTE change the route name and register it in google cloud
-def authorize_by_google():
+def authorize_by_google(google):
     token = google.authorize_access_token()
     id_info = token.get("userinfo")
 
@@ -47,7 +35,8 @@ def generate_token_by_google_info(data):
     email = data.get("email")
     try:
         user_registered = search_by_email(email)
-
+        if user_registered:
+            username = user_registered["Username"]
         if not user_registered:
             # generate_new_and_unique_Username write function here
             username = generate_new_username(Full_name)
