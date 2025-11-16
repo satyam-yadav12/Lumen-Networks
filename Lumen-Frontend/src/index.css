@@ -1,7 +1,19 @@
 @import "tailwindcss";
 
+
 :root {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  background-color: #212121;
+}
+
+.light {
+  background-color: #fff;
+  color: #212121;
+}
+
+.dark {
+  background-color: #212121;
+  color: #fff;
 }
