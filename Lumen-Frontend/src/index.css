@@ -5,15 +5,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #212121;
+
 }
 
 .light {
   background-color: #fff;
-  color: #212121;
+  color: black;
 }
 
 .dark {
-  background-color: #212121;
+  background-color: #000000;
   color: #fff;
 }

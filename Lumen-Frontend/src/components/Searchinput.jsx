@@ -8,7 +8,7 @@ const Searchinput = () => {
           type="text"
           name="Search"
           placeholder="Search Image Tag/Title"
-          className="border-1 inline border-gray-400 border-r-0 p-4 m-2 rounded-r-none rounded-3xl mr-0  bg-gray-100 h-[50px] text-black focus:outline-0 w-[80%]"
+          className="border-1 inline border-gray-400 border-r-0 p-4 m-2 mb-0 rounded-r-none rounded-3xl mr-0  bg-gray-100 h-[50px] text-black focus:outline-0 w-[80%]"
         />
         <img
           src="https://cdn-icons-png.flaticon.com/128/54/54481.png"
@@ -17,7 +17,10 @@ const Searchinput = () => {
         />
       </div>
       <div>
-        <label htmlFor="source" className="mx-2">
+        <label
+          htmlFor="source"
+          className="mx-2  font-extralight  font-sans text-sm"
+        >
           <input
             type="checkbox"
             name="source"
@@ -27,7 +30,10 @@ const Searchinput = () => {
           />{" "}
           Search Lumen Dataset
         </label>
-        <label htmlFor="user" className="mx-2">
+        <label
+          htmlFor="user"
+          className="mx-2  font-extralight  font-sans text-sm"
+        >
           <input
             type="checkbox"
             name="user"
