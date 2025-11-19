@@ -1,13 +1,14 @@
 import { Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TypeText from "./TypeText";
+import { ThemeContext } from "../context/Themecontext";
 
 const Heroimg = () => {
   const [tag, setTag] = useState("Discover, search, and share images");
-  const mode = "light";
-  const [bgImg, setBgImg] = useState(
-    `/${mode == "dark" ? "dark" : "hero"}-image-1.avif`
-  );
+
+  const { theme: mode, Imgtag } = useContext(ThemeContext);
+
+  const [bgImg, setBgImg] = useState(`/${Imgtag}-image-1.avif`);
 
   const updateTag = () =>
     setTag(
@@ -26,27 +27,27 @@ const Heroimg = () => {
 
   useEffect(() => {
     let num = 1;
-    let key = () => (mode == "dark" ? "dark" : "hero");
+    console.log(Imgtag);
     const changeBack = setInterval(() => {
       if (num <= 4) {
-        setBgImg(`/${mode == "dark" ? "dark" : "hero"}-image-${num + 1}.avif`);
+        setBgImg(`/${Imgtag}-image-${num + 1}.avif`);
         num = num + 1;
       } else {
         num = 1;
-        setBgImg(`/${mode == "dark" ? "dark" : "hero"}-image-${num}.avif`);
+        setBgImg(`/${Imgtag}-image-${num}.avif`);
       }
     }, 5000);
 
     return () => clearInterval(changeBack);
-  }, []);
+  }, [Imgtag]);
 
   return (
     <div>
       <div
-        className="bg-transparent bg-center bg-clip-border bg-no-repeat bg-cover w-full relative h-[400px]"
+        className="bg-transparent bg-center bg-clip-border bg-no-repeat bg-cover w-full relative h-[400px] inset-0 bg-gradient-to-b from-black/60 to-transparent"
         style={{ backgroundImage: `url(${bgImg} )` }}
       >
-        <div className="absolute w-full h-full flex flex-col items-center justify-center text-center">
+        <div className="absolute w-full h-full flex flex-col items-center justify-center text-centerinset-0 bg-gradient-to-b from-black/40 to-transparent">
           <h1
             className="text-4xl font-bold p-5 m-2 pb-1
        mb-0 text-shadow-2xs text-shadow-white"

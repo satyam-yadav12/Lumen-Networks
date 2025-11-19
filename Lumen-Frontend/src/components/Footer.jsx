@@ -21,8 +21,8 @@ const Footer = () => {
     },
   ];
   return (
-    <div className="flex justify-start mb-0 m-3 p-3 shadow-2xl shadow-black w-full mx-0 select-none">
-      <div className="w-[40%] m-5">
+    <div className="shadow-2xl shadow-black w-full mx-0 select-none grid grid-cols-1 md:grid-cols-3 m-2 rounded-2xl ">
+      <div className=" m-5">
         <div className="m-auto  ml-5">
           <Logo />
           <p className="text-wrap text-justify left-0 pt-1 select-none">
@@ -33,29 +33,31 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="flex flex-col my-auto m-auto w-[40%]">
-        <p className="p-2 pb-0.5 text-center font-medium">
+      {/* social media */}
+      <div className="flex flex-col my-auto pl-2 ml-5 md:m-auto ">
+        <p className="p-2 pb-0.5 md:text-center font-medium text-left ">
           join us on Social media
         </p>
 
-        <div className="flex flex-row justify-center">
+        <div className="flex flex-row justify-start md:justify-center">
           {SocialIcons.map((data) => {
             return (
               <li
                 key={data.alt}
                 className="list-none cursor-pointer select-none p-2 "
               >
-                <img src={data.url} alt="data.alt" className="h-[40px] m-2" />
+                <img src={data.url} alt="data.alt" className="h-[40px] m-1" />
               </li>
             );
           })}
         </div>
-        <p className="p-2 pt-0 text-center font-extralight">
+        <p className="p-2 pt-0 text-left md:text-center font-extralight">
           Copyright resevered © Satyam Yadav 2025
         </p>
       </div>
 
-      <div className="flex flex-col justify-start text-left m-5 w-[20%] p-2 ml-auto">
+      {/* links */}
+      <div className="flex flex-row md:flex-col md:row-start-1 md:col-start-3 row-start-2 justify-start text-left ml-5 pt-2 p-2 mr-auto">
         {["Feedback", "Developer", "Contact"].map((text) => {
           return (
             <Fragment key={text}>

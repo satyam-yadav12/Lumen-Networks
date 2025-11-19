@@ -89,6 +89,8 @@ def register():
 
 
 # route("/login", methods=["POST"])
+
+
 def login():
     details = request.json
 
@@ -101,12 +103,13 @@ def login():
 
             return generate_and_set_tokens(user_details, additional)
         else:
-            raise Exception("incorrect user email or password")
+            return jsonify({"error": "incorrect user email or password"}), 401
+
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
 
     except Exception as error:
         return jsonify({"error": str(error)}), 500
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 400
 
 
 # route("/logout", methods=["POST"])

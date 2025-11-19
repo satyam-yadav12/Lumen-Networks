@@ -24,7 +24,7 @@ const Profile = ({ Data }) => {
     <div>
       {userData.map((val) => {
         return (
-          <div key={val.Email} className="text-start p-3 m-3">
+          <div key={val.Email} className="text-start p-3 m-3 mb-0">
             <img
               src={
                 val.Profile_picture
@@ -39,7 +39,7 @@ const Profile = ({ Data }) => {
               {" "}
               {val.Full_name}
             </h1>
-            <div className="ml-14 p-3 grid grid-cols-2 grid-rows-2 gap-0 text-start w-1/2">
+            <div className="ml-14  mb-0 p-3 grid gap-2 grid-cols-2 grid-rows-2  text-start w-1/2">
               <p className="inline mx-2">
                 <strong>Email:</strong> {val.Email}
               </p>
@@ -58,9 +58,23 @@ const Profile = ({ Data }) => {
         );
       })}
 
-      <div className="m-3 flex flex-col justify-start w-max ml-24">
+      <div className="flex flex-col justify-start w-max ml-24">
         <Button variant="contained" color="primary">
           Edit Profile
+        </Button>
+      </div>
+
+      <div className="flex flex-row justify-start ml-20 mt-5">
+        <input
+          type="text"
+          className="bg-white border-1 border-black p-1.5 mx-3 text-black focus:outline-none rounded-sm"
+        />
+        <input
+          type="text"
+          className="bg-white border-1 border-black p-1.5 mx-3 text-black focus:outline-none rounded-sm"
+        />
+        <Button variant="contained" color="secondary">
+          Change Password
         </Button>
       </div>
     </div>

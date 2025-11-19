@@ -1,17 +1,25 @@
 import React from "react";
 import mock_file from "../assets/users.user_imgs.json";
+import mock_images from "../assets/mockData.json";
 
 const Image = () => {
-  const images = mock_file;
-  console.log(images);
+  const images = mock_images;
+  // console.log(images);
   return (
-    <div className="columns-3 gap-2">
-      {images.map((data) => {
-        // console.log(data.secure_url, "data");
+    <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 px-4">
+      {images.map((data, index) => {
         return (
-          <li key={data.img_id} className="list-none  p-2">
-            <img src={data.secure_url} alt="img" />
-          </li>
+          <div
+            key={index}
+            className="break-inside-avoid overflow-hidden rounded-xl my-4 w-[90vw] sm:w-[45vw] lg:w-[30vw]"
+          >
+            <img
+              src={data.url2}
+              alt="img"
+              loading="lazy"
+              className=" object-cover m-auto rounded-xl"
+            />
+          </div>
         );
       })}
     </div>
