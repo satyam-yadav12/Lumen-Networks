@@ -1,6 +1,6 @@
-# 🌌 Lumen Networks – Backend
+# 🌌 Lumen Captures – Backend
 
-**Lumen Networks** is the backend API powering an image-based platform where users can upload, manage, and explore public images.  
+**Lumen Captures** is the backend API powering an image-based platform where users can upload, manage, and explore public images.  
 It’s built using **Flask + MongoDB** with a focus on modular design, security, and scalability.
 
 ---
@@ -55,8 +55,8 @@ Lumen-Backend/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/satyam-yadav12/Lumen-Networks.git
-cd Lumen-Networks/Lumen-Backend
+git clone https://github.com/satyam-yadav12/Lumen-Captures.git
+cd Lumen-Captures/Lumen-Backend
 
 # 2. Create a virtual environment
 python -m venv venv
