@@ -1,6 +1,59 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0;
   text-align: center;
+}
+
+.addShadow {
+  box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 1);
+  backdrop-filter: blur(3px);
+  background-color: transparent;
+}
+
+.typewriter-wrapper {
+  display: inline-block;
+  animation: phraseEaseOut 0.35s ease-out;
+}
+
+.typewriter-char {
+  display: inline-block;
+  opacity: 0;
+  animation: fadeInChar 0.18s ease-out forwards;
+}
+
+@keyframes fadeInChar {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes phraseEaseOut {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

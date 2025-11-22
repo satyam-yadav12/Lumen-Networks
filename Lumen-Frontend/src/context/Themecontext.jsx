@@ -8,7 +8,7 @@ export function ThemeProvider({ children }) {
   const [Imgtag, setImgtag] = useState("hero");
 
   useEffect(() => {
-    // apply Tailwind dark mode class
+    
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
     } else {

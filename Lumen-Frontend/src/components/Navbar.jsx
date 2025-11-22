@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import Searchinput from "./Searchinput";
 import { Button, Drawer } from "@mui/material";
+import MenuIcon from "@Mui/icons-material/Menu";
 
 import Logo from "./logo";
 import DrawerList from "./DrawerList";
@@ -25,22 +26,35 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-2 md:grid-cols-4  gap-4 items-center">
+      <div className="grid grid-cols-2 md:grid-cols-4  gap-4 mt-2  items-center">
         <div className=" m-3 col-start-1 md:col-start-1">
           <Logo />
         </div>
-        <div className="col-span-2 md:col-span-2 order-last md:order-none w-[97%] gap-0">
+        <div className="col-span-2 order-last md:order-0  w-[97%] gap-0 ">
           <Searchinput />
         </div>
         <div className="justify-self-end col-start-2 md:col-start-4 m-3 p-3 font-bold cursor-pointer ">
           {user ? (
-            <Button onClick={toggleDrawer(true)}>Profile</Button>
+            <MenuIcon
+              onClick={toggleDrawer(true)}
+              className="mr-5"
+              color="primary"
+              fontSize="large"
+            />
           ) : (
-            <div>
-              <Button onClick={toggleTheme} className="inline ">
-                change theme
+            <div className="flex flex-row gap-2">
+              <Button
+                onClick={toggleTheme}
+                className="inline "
+                variant="outlined"
+              >
+                {mode}
               </Button>
-              <Button onClick={testDrawer} className="inline">
+              <Button
+                onClick={testDrawer}
+                className="inline"
+                variant="outlined"
+              >
                 Login
               </Button>
             </div>
@@ -66,28 +80,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-<nav className="w-full p-4 bg-white dark:bg-gray-900">
-  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 items-center">
-    {/* Logo */}
-    <div className="col-start-1 md:col-start-1">
-      <img src="/logo.png" className="h-8" />
-    </div>
-
-    {/* Searchbar */}
-    <div className="col-span-2 md:col-span-1 order-last md:order-none">
-      <input
-        type="text"
-        placeholder="Search..."
-        className="w-full px-4 py-2 rounded-xl bg-gray-100 dark:bg-gray-800"
-      />
-    </div>
-
-    {/* Login/Profile */}
-    <div className="justify-self-end col-start-2 md:col-start-3">
-      <button className="px-4 py-2 rounded-xl bg-blue-500 text-white">
-        Login
-      </button>
-    </div>
-  </div>
-</nav>;

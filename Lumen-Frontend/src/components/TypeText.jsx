@@ -19,5 +19,5 @@ export default function TypeText({ text, speed = 80 }) {
     return () => clearInterval(interval);
   }, [text, speed]);
 
-  return <span>{display}</span>;
+  return <span className="typewriter-wrapper">{display}</span>;
 }
